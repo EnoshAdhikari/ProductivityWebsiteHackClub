@@ -15,7 +15,7 @@
         <div class="container"></div>
         <section class="card">
             <h2>Calculator</h2>
-            <input id="calcDisplay" readonly>
+            <input id="calcDisplay" type="text" placeholder="Enter a calculation">
             <div class="calc-grid">
                 <button onclick="addValue('7')">7</button>
                 <button onclick="addValue('8')">8</button>
@@ -80,7 +80,31 @@
             <p id="goalCount">Goals: 0</p>
             <p id="habitCount">Habits: 0</p>
         </section>
+        
+        <section class="card">
+            <h2>Appearance</h2>
+            <button onclick="setTheme('light')">Light Theme</button>
+            <button onclick="setTheme('dark')">Dark Theme</button>
+            <button onclick="setTheme('ocean')">Ocean Theme</button>
+        </section>
 
+        <section class="card">
+            <h2>Focus Sounds</h2>
+            <p>
+                White noise can help some people stay focused by masking the distracting background sounds.
+            </p>
+            <button id="noiseBtn">
+                Start White Noise
+            </button>
+        </section>
+
+        <section class="card">
+            <p id="quote">Click for motivation.</p>
+            <button onclick="newQuote()">
+                New Quote
+            </button>
+        </section>
+        
         <script src="script.js"></script>
     </body>
 </html>
