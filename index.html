@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Productivity Website</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header>
+            <h1>Productivity Hub</h1>
+            <button id="themeBtn">Toggle Theme</button>
+        </header>
+
+        <div class="container"></div>
+        <section class="card">
+            <h2>Calculator</h2>
+            <input id="calcDisplay" readonly>
+            <div class="calc-grid">
+                <button onclick="addValue('7')">7</button>
+                <button onclick="addValue('8')">8</button>
+                <button onclick="addValue('9')">9</button>
+                <button onclick="addValue('/')">/</button>
+                <button onclick="addValue('4')">4</button>
+                <button onclick="addValue('5')">5</button>
+                <button onclick="addValue('6')">6</button>
+                <button onclick="addValue('*')">*</button>
+                <button onclick="addValue('1')">1</button>
+                <button onclick="addValue('2')">2</button>
+                <button onclick="addValue('3')">3</button>
+                <button onclick="addValue('-')">-</button>
+                <button onclick="addValue('0')">0</button>
+                <button onclick="calculate()">=</button>
+                <button onclick="clearCalc()">C</button>
+                <button onclick="addValue('+')">+</button>
+                <button onclick="addValue('.')">.</button>
+                <button onclick="backspace()">⌫</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Notes</h2>
+            <textarea id="notes"></textarea>
+            <button onclick="saveNotes()">Save Notes</button>
+        </section>
+
+        <section class="card">
+            <h2>Tasks</h2>
+            <input id="taskInput" placeholder="New Task">
+            <button onclick="addTask()">Add</button>
+            <ul id="taskList"></ul>
+        </section>
+
+        <section class="card">
+            <h2>Pomodoro Timer</h2>
+            <div id="timer">25:00</div>
+            <button onclick="startTimer()">Start</button>
+            <button onclick="resetTimer()">Reset</button>
+            <button onclick="pauseTimer()">Pause</button>
+        </section>
+
+        <section class="card">
+            <h2>Habits</h2>
+            <input id="habitInput" placeholder="New Habit">
+            <button onclick="addHabit()">Add Habit</button>
+            <ul id="habitList"></ul>
+        </section>
+
+        <section class="card">
+            <h2>Goals</h2>
+            <input id="goalInput" placeholder="Goal">
+            <button onclick="addGoal()">Add Goal</button>
+            <ul id="goalList"></ul>
+        </section>
+        </div>
+
+        <section class="card">
+            <h2>Statistics</h2>
+            <p id="taskCount">Tasks: 0</p>
+            <p id="goalCount">Goals: 0</p>
+            <p id="habitCount">Habits: 0</p>
+        </section>
+
+        <script src="script.js"></script>
+    </body>
+</html>
