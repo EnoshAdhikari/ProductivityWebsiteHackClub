@@ -1,3 +1,26 @@
+let goals = [];
+
+function addGoal()
+{
+    const input = document.getElementById("goalInput");
+    if(input.value.trim() === "")
+    {
+        return;
+    }
+    goals.push(input.value);
+    renderGoals();
+    input.value = "";
+}
+function renderGoals()
+{
+    const list = document.getElementById("goalList");
+    list.innerHTML = "";
+    goals.forEach(goal => {
+        let li = document.createElement("li");
+        li.textContent = goal;
+        list.appendChild(li);
+    });
+}
 display.addEventListener("keydown", function(event)
 {
     if(event.key === "Enter")
@@ -22,12 +45,6 @@ function calculate()
         let expression = display.value;
         expression = expression.replace(/x/gi, "*");
         const result = Function(`"use strict"; return (${expression})`)();
-
-        if(result === undefined || result === null)
-        {
-            display.value = "Error";
-            return;
-        }
         display.value = result;
     }
     catch
@@ -35,6 +52,14 @@ function calculate()
         display.value = "Error";
     }
 }
+
+    display.addEventListener("keypress", function(event)
+    {
+        if(event.key === "Enter")
+        {
+            calculate();
+        }
+    });
 
     function saveNotes()
     {
@@ -78,13 +103,14 @@ function calculate()
     function addTask()
     {
         const input = document.getElementById("taskInput");
-        if(input.value.trim() === "") return;
-        task.push({
-            text: input.value, completed: false
-        });
+        if(input.value.trim() === "")
+        {
+            return;
+        }
+        tasks.push({text: input.value, completed:false});
         saveTasks();
         renderTasks();
-        input.value = "";
+        input.value="";
     }
     function toggleTask(index)
     {
@@ -111,35 +137,41 @@ function calculate()
     let timerRunning = false;
     function startTimer()
     {
-        if(timerRunning) return;
-        timerRunning = true;
-        interval = setInterval(() => 
-        {
+        if(interval) return;
+        interval = setInterval(() => {
+            time--;
+            updateTimer();
             if(time <= 0)
             {
                 clearInterval(interval);
-
-                alert("Pomodoro Complete!");
-                
-                timerRunning = false;
-                return;
+                interval = null;
+                alert("Pomodoro Complete!!");
             }
-                time--;
         }, 1000);
     }
 
+    let time = 1500;
+    let interval = null;
     function updateTimer()
     {
-        let m = Math.floor(time/60);
-        let s = time % 60;
-        document.getElementById("timer").textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        document.getElementById("timer").textContent = `${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
     }
     updateTimer();
 
     function pauseTimer()
     {
         clearInterval(interval);
-        timerRunning = false;
+        interval = null;
+    }
+
+    function resetTimer()
+    {
+        clearInterval(interval);
+        interval = null;
+        time = 1500;
+        updateTimer();
     }
 
     function updateStats()
@@ -179,7 +211,7 @@ function calculate()
             noiseNode.loop = true;
 
             const gain = audioContext.createGain();
-            gain.gain.value = 0.05;
+            gain.gain.value = 0.15;
 
             noiseNode.connect(gain);
             gain.connect(audioContext.destination);
@@ -197,3 +229,17 @@ function calculate()
         }
     }
     document.getElementById("noiseBtn").addEventListener("click", toggleWhiteNoise);
+
+    const quotes =
+    [
+        "Small progress is still progress.",
+        "Focus on being productive, not busy.",
+        "Success is the sum of small efforts.",
+        "One task at a time.",
+        "Discipline beats motivation"
+    ];
+    function newQuote()
+    {
+        const random = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById("quote").textContent = quotes[randomIndex];
+    }
