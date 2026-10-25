@@ -1,3 +1,6 @@
+let streak = Number(localStorage.getItem("strea")) || 0;
+
+
 let goals = [];
 let audioContext;
 let noiseNode;
@@ -257,20 +260,32 @@ function addValue(v)
         confetti({particleCount: 150, spread: 120, origin: {y: 0.6}});
         const audio = new Audio("https://assets.mixkit.co/active_storage/s/fx/2018/2018-preview.mp3");
         audio.play();
+
+        xp = xp + 25;
+        updateXP();
     }
     function toggleTask(index)
     {
         tasks[index].completed = !tasks[index].completed;
         if(tasks[index].completed)
         {
-            celebrate();
+            completedTasks++;
+            localStorage.setItem("completedTasks", completedTasks);
         }
         saveTasks();
         renderTasks();
+        celebrate();
+        updateXP();
+        updateAnalytics();
     }
     function completeHabit(button)
     {
+        completedHabits++;
+        localStorage.setItem("completedHabits", completedHabits);
+        xp = xp + 10;
         celebrate();
+        updateXP();
+        updateAnalytics();
         button.parentElement.style.opacity = "0.5";
         button.parentElement.style.textDecoration = "line-through";
     }
@@ -280,4 +295,41 @@ function addValue(v)
         localStorage.setItem("xp", xp);
         document.getElementById("xpDisplay").textContent = `XP: ${xp}`;
         document.getElementById("levelDisplay").textContent = `Level: ${Math.floor(xp / 100)+ 1}`;
+    }
+    updateXP();
+    function toggleAnalytics()
+    {
+        document.getElementById("analyticsOverlay").classList.toggle("active");
+    }
+    function updateStreak()
+    {
+        document.getElementById("currentStreak").textContent = `🔥 Current Streak: ${streak} Days`;
+        localStorage.setItem("streak", streak);
+    }
+    updateStreak();
+    function checkDailyLogin()
+    {
+        const today = new Date().toDateString();
+        const lastVisit = localStorage.getItem("lastVisit");
+        if(lastVisit !== today)
+        {
+            streak++;
+            localStorage.setItem("lastVisit", today);
+            updateStreak();
+        }
+
+    }
+    checkDailyLogin();
+    let completedTasks = Number(localStorage.getItem("completedTasks")) || 0;
+    let completedHabits = Number(localStorage.getItem("completedHabits")) || 0;
+    function updateAnalytics()
+    {
+        document.getElementById("tasksCompleted").textContent = `Tasks Completed: ${completedTasks}`;
+        document.getElementById("habitsCompleted").textContent = `Habits Completed: ${completedHabits}`;
+        const total = tasks.length + completedTasks;
+
+        const percent = total === 0 ? 0: Math.round(completedTasks / total * 100);
+
+        document.getElementById("completionRate").textContent = `Completion Rate: ${percent}%`;
+        updateAnalytics();
     }

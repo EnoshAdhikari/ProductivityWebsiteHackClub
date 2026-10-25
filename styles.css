@@ -5,7 +5,7 @@
     --text: #222;
     --accent: #4f46e5;
 }
-.theme-switcher
+.header-controls
 {
     display: flex;
     gap: 10px;
@@ -16,6 +16,7 @@ body
     color: var(--text);
     min-height: 100vh;
     transition: all .3s ease;
+    font-family: monospace;
 }
 
 header
@@ -132,4 +133,36 @@ input:focus, textarea:focus
 {
     border-color: #22d3ee;
     box-shadow: 0 0 15px rgba(34,211,238,.4);
+}
+#analyticsOverley
+{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.7);
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    z-index: 1000;
+}
+#analyticsOverlay.active
+{
+    visibility: visible;
+    opacity: 1;
+}
+#analyticsDrawer
+{
+    position: absolute;
+    top: 0;
+    right: -900px;
+    width: 800px;
+    max-width: 90vw;
+    height: 100%;
+    background: #111827;
+    overflow: auto;
+    padding: 30px;
+    transition: .4s
+}
+#analyticsOverlay.active #analyticsDrawer
+{
+    right: 0;
 }

@@ -9,13 +9,13 @@
     <body>
         <header>
             <h1>Productivity Hub</h1>
-            <div class="theme-switcher">
+            <div class="header-controls">
+                <button onclick="toggleAnalytics()">📈 Analytics</button>
                 <button onclick="setTheme('light')">☀️ Light</button>
                 <button onclick="setTheme('dark')">🌙 Dark</button>
                 <button onclick="setTheme('ocean')">🌊 Ocean</button>
             </div>
         </header>
-
         <div class="container"></div>
         <section class="card">
             <h2>Calculator</h2>
@@ -110,6 +110,39 @@
                 Level: 1
             </p>
         </section>
+        <p id="streakDisplay">🔥 Streak: 0 Days</p>
+        <div id="analyticsOverlay">
+            <div id="analyticsDrawer">
+                <button onclick="toggleAnalytics()" class="close-btn">✕</button>
+                <h1>📊 Productivity Analytics</h1>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Tasks Completed</h3>
+                        <p id="tasksCompleted">0</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Habits Completed</h3>
+                        <p id="habitsCompleted">0</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Current Streak</h3>
+                        <p id="currentStreak">0 Days</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Focus Score</h3>
+                        <p id="focusScore">0</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>XP</h3>
+                        <p id="xpDisplay">0</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Level</h3>
+                        <p id="levelDisplay">1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
         <script src="script.js"></script>
     </body>
