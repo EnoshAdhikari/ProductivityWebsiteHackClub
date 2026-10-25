@@ -1,4 +1,15 @@
-let streak = Number(localStorage.getItem("strea")) || 0;
+if(subjects.length === 0)
+{
+    subjects.push("General")
+    saveSubjects();
+}
+
+
+let subjects = JSON.parse(localStorage.getItem("subjects")) || [];
+let currentSubject = localStorage.getItem("currentSubject") || "General";
+
+
+let streak = Number(localStorage.getItem("streak")) || 0;
 let achievements = [];
 
 let goals = [];
@@ -6,6 +17,47 @@ let audioContext;
 let noiseNode;
 let isNoisePlaying = false;
 
+function addSubject()
+{
+    const input = document.getElementById("subjectInput");
+    if(input.value.trim() === "")
+    {
+        return;
+    }
+    subjects.push(input.value);
+    saveSubjects();
+    renderSubjects();
+    input.value="";
+}
+function saveSubjects()
+{
+    localStorage.setItem("subjects", JSON.stringify(subjects));
+}
+function renderSubjects()
+{
+    const list = document.getElementById("subjectList");
+    list.innerHTML="";
+    subjects.forEach(subject => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+        <button onclick="switchSubject('${subject}')">${subject}</button>`;
+    });
+}
+function switchSubject(subject)
+{
+    currentSubject = subject;
+    localStorage.setItem("currentSubject", subject);
+    document.getElementById("currentSubjectDisplay").textControl = subject;
+    loadSubjectData();
+}
+function loadSubjectData()
+{
+    console.log("Loading:", currentSubject);
+}
+function subjectKey(name)
+{
+    return `${currentSubject}_${name}`;
+}
 const display = document.getElementById("calcDisplay");
 function addGoal()
 {
@@ -295,7 +347,7 @@ function addValue(v)
     function updateXP()
     {
         localStorage.setItem("xp", xp);
-        document.getElementById("xpDisplay").textContent = `XP: ${xp}`;
+        document.getElementById("analyticsXp").textContent = `XP: ${xp}`;
         document.getElementById("levelDisplay").textContent = `Level: ${Math.floor(xp / 100)+ 1}`;
     }
     updateXP();

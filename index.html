@@ -18,17 +18,29 @@
             <button onclick="toggleAchievements()">🏆 Achievements</button>
             <div id="achievementOverlay">
                 <div id="achievementDrawer">
-                    <button onclick="toggleAchievement()">✕</button>
+                    <button onclick="toggleAchievements()">✕</button>
                     <h1>
                         🏆 Achievements
                     </h1>
                     <ul id="achievementList">
-                        
+
                     </ul>
                 </div>
             </div>
             <p id="streakDisplay">🔥 Streak: 0 Days</p>
         </header>
+        <section class="card">
+            <h2>📁 Subjects</h2>
+            <input id="subjectInput" placeholder="New Subject">
+            <button onclick="addSubject()">Create Subject</button>
+            <ul id="subjectList">
+
+            </ul>
+        </section>
+        <section class="card">
+            <h2>Current Subject</h2>
+            <h1 id="currentSubjectsDisplay">General</h1>
+        </section>
         <div class="container"></div>
         <section class="card">
             <h2>Calculator</h2>
@@ -161,7 +173,7 @@
                     </div>
                     <div class="analytics-card">
                         <h3>XP</h3>
-                        <p id="xpDisplay">0</p>
+                        <p id="analyticsXp">0</p>
                     </div>
                     <div class="analytics-card">
                         <h3>Level</h3>

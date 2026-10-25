@@ -44,13 +44,20 @@ header
 }
 .card
 {
-    background: var(--card);
-    color: var(--text);
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.25);
+    transition: .35s;
 }
 
 .card:hover
 {
-    transform: translateY(-5px);
+    transform: translateY(-8px) scale(1.01);
     box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
 }
 .card:hover
@@ -195,4 +202,11 @@ input:focus, textarea:focus
 #achievementOverlay.active #achievementDrawer
 {
     left: 0;
+}
+.card::before
+{
+    content: "";
+    inset: 0;
+    background: radial-gradient(circle at top left, rgba(255,255,255,.1), transparent);
+    pointer-events: none;
 }
