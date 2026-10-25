@@ -210,3 +210,18 @@ input:focus, textarea:focus
     background: radial-gradient(circle at top left, rgba(255,255,255,.1), transparent);
     pointer-events: none;
 }
+.progress-bar
+{
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.progress-fill
+{
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #22d3ee, #3b82f6);
+    transition: .5s;
+}

@@ -124,7 +124,15 @@
             <p id="goalCount">Goals: 0</p>
             <p id="habitCount">Habits: 0</p>
         </section>
-
+        <section class="card">
+            <h2>
+                Progress Dashboard
+            </h2>
+            <div class="progress-bar">
+            <div>
+            </div>
+            </div>
+        </section>
         <section class="card">
             <h2>Focus Sounds</h2>
             <p>
@@ -134,7 +142,11 @@
                 Start White Noise
             </button>
         </section>
-
+        <section class="card">
+            <h2>Daily Journal</h2>
+            <textarea id="journalEntry" placeholder="What did you accomplish today?"></textarea>
+            <button onclick="saveJournal()">Save Journal</button>
+        </section>
         <section class="card">
             <p id="quote">Click for motivation.</p>
             <button onclick="newQuote()">
@@ -149,6 +161,12 @@
             <p id="levelDisplay">
                 Level: 1
             </p>
+        </section>
+        <section class="card">
+            <h2>Subject Information</h2>
+            <input id="subjectDescription" placeholder="Description of subject">
+            <button onclick="saveSubjectDescription()">Save Description</button>
+            <p id="subjectDescriptionDisplay">No description yet.</p>
         </section>
         <div id="analyticsOverlay">
             <div id="analyticsDrawer">
@@ -178,6 +196,12 @@
                     <div class="analytics-card">
                         <h3>Level</h3>
                         <p id="levelDisplay">1</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>
+                            📁 Current Subject
+                        </h3>
+                        <p id="subjectAnalytics">General</p>
                     </div>
                 </div>
             </div>

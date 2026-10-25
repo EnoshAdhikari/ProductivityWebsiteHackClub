@@ -29,6 +29,11 @@ function addSubject()
     renderSubjects();
     input.value="";
 }
+function loadSubjectDescription()
+{
+    const description = localStorage.getItem(subjectKey("description")) || "No description yet.";
+    document.getElementById("subjectDescriptionDisplay").textContent = description;
+}
 function saveSubjects()
 {
     localStorage.setItem("subjects", JSON.stringify(subjects));
@@ -43,20 +48,39 @@ function renderSubjects()
         <button onclick="switchSubject('${subject}')">${subject}</button>`;
     });
 }
+function loadSubjectGoals()
+{
+    goals = JSON.parse(localStorage.getItem(subjectKey("goals"))) || [];
+    renderGoals();
+}
 function switchSubject(subject)
 {
     currentSubject = subject;
     localStorage.setItem("currentSubject", subject);
     document.getElementById("currentSubjectDisplay").textControl = subject;
     loadSubjectData();
+    document.getElementById("subjectAnalytics").textContent = currentSubject;
+}
+function loadJournal()
+{
+    document.getElementById("journalEntry").value = localStorage.getItem(`${currentSubject}_journal`) || "";
 }
 function loadSubjectData()
 {
-    console.log("Loading:", currentSubject);
+    notesElement.value = localStorage.getItem(subjectKey("notes")) || "";
+    loadSubjectTasks();
+    loadSubjectGoals();
+    loadSubjectHabits();
+    loadSubjectData();
+    loadJournal();
 }
 function subjectKey(name)
 {
     return `${currentSubject}_${name}`;
+}
+function saveSubjectTasks()
+{
+    localStorage.setItem(subjectKey("tasks"), JSON.stringify(tasks));
 }
 const display = document.getElementById("calcDisplay");
 function addGoal()
@@ -128,7 +152,7 @@ function addValue(v)
     }
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    function saveTasks()
+    function saveSubjectsTasks()
     {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
@@ -452,4 +476,47 @@ function addValue(v)
     function toggleAchievements()
     {
         document.getElementById("achievementOverlay").classList.toggle("active");
+    }
+    function loadSubjectTasks()
+    {
+        tasks = JSON.parse(localStorage.getItem(subjectKey("tasks")) || []);
+        renderTasks();
+    }
+    function saveGoals()
+    {
+        localStorage.setItem(subjectKey("goals"), JSON.stringify(goals));
+    }
+    saveGoals();
+    
+    function saveHabits()
+    {
+        const habits = [...document.querySelectorAll("#habitList li")].map(li => li.textContent);
+        localStorage.setItem(subjectKey("habits"), JSON.stringify(habits));
+    }
+    function loadSubjectHabits()
+    {
+        const habits = JSON.parse(localStorage.getItem(subjectKey("habits"))) || [];
+        document.getElementById("habitList").innerHTML="";
+        habits.forEach(habit=> {
+            const li = document.createElement("li");
+            li.innerHTML=`<span>${habit}</span>`;
+            document.getElementById("habitList").appendChild(li);
+        });
+    }
+    function saveSubjectDescription()
+    {
+        const description = document.getElementById("subjectDescription").value;
+        localStorage.setItem(subjectKey("description"), description);
+        loadSubjectDescription();
+    }
+    function updateProgress()
+    {
+        const total = tasks.length + completedTasks;
+        const percentage = total === 0 ? 0: (completedTasks / total) * 100;
+        document.getElementById("taskProgress").style.width = `${percentage}%`;
+    }
+    updateProgress();
+    function saveJournal()
+    {
+        localStorage.setItem(`${currentSubject}_journal`, document.getElementById("journalEntry").value);
     }
