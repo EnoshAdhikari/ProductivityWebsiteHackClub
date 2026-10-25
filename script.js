@@ -1,5 +1,5 @@
 let streak = Number(localStorage.getItem("strea")) || 0;
-
+let achievements = [];
 
 let goals = [];
 let audioContext;
@@ -21,10 +21,12 @@ function addGoal()
 function renderGoals()
 {
     const list = document.getElementById("goalList");
-    list.innerHTML = "";
-    goals.forEach(goal => {
-        let li = document.createElement("li");
-        li.textContent = goal;
+    list.innerHTML="";
+    goals.forEach((goals,index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${goals}</span>
+        <button onclick="completeGoal(${index})">✔</button>
+        <button onclick="deleteGoal(${index})">🗑</button>`;
         list.appendChild(li);
     });
 }
@@ -331,5 +333,71 @@ function addValue(v)
         const percent = total === 0 ? 0: Math.round(completedTasks / total * 100);
 
         document.getElementById("completionRate").textContent = `Completion Rate: ${percent}%`;
-        updateAnalytics();
+    }
+    updateAnalytics();
+    function updateFocusScore()
+    {
+        let score = 0;
+        score = score + completedTasks * 5;
+        score = score + completedHabits * 3;
+        score  = score + streak * 10;
+        score = score + Math.floor(xp / 10);
+        if(score > 100)
+        {
+            score = 100;
+        }
+        document.getElementById("focusScore").textContent = score + "/100";
+    }
+    function unlockAchievement(name)
+    {
+        if(achievements.includes(name))
+        {
+            return;
+        }
+        achievements.push(name);
+        renderAchievements();
+        celebrate();
+    }
+    function renderAchievements()
+    {
+        const list = document.getElementById("achievementList");
+        list.innerHTML = "";
+        achievements.forEach(a => {
+            const li = document.createElement("li");
+            li.textContent = a;
+            list.appendChild(li);
+        });
+    }
+    if(completedTasks >= 1)
+    {
+        unlockAchievement("✅ First Task Complete");
+    }
+    if(completedTasks >= 10)
+    {
+        unlockAchievement("💪 Task Warrior");
+    }
+    if(streak >= 7)
+    {
+        unlockAchievement("🔥 7 Day Streak");
+    }
+    if(xp >= 100)
+    {
+        unlockAchievement("⭐ Level Up");
+    }
+    function deleteGoal(index)
+    {
+        goals.splice(index, 1);
+        renderGoals();
+    }
+    function completeGoal(index)
+    {
+        goals.splice(index, 1);
+        xp = xp + 50;
+        celebrate();
+        updateXP();
+        renderGoals();
+    }
+    function toggleAchievements()
+    {
+        document.getElementById("achievementOverlay").classList.toggle("active");
     }

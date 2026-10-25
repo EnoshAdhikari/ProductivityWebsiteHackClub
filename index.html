@@ -15,6 +15,19 @@
                 <button onclick="setTheme('dark')">🌙 Dark</button>
                 <button onclick="setTheme('ocean')">🌊 Ocean</button>
             </div>
+            <button onclick="toggleAchievements()">🏆 Achievements</button>
+            <div id="achievementOverlay">
+                <div id="achievementDrawer">
+                    <button onclick="toggleAchievement()">✕</button>
+                    <h1>
+                        🏆 Achievements
+                    </h1>
+                    <ul id="achievementList">
+                        
+                    </ul>
+                </div>
+            </div>
+            <p id="streakDisplay">🔥 Streak: 0 Days</p>
         </header>
         <div class="container"></div>
         <section class="card">
@@ -61,8 +74,23 @@
             <button onclick="startTimer()">Start</button>
             <button onclick="resetTimer()">Reset</button>
             <button onclick="pauseTimer()">Pause</button>
+            <div id="pomodoroInfo" class="modal">
+                <div class="modal-content">
+                    <h2>
+                        Why use Pomodoro?
+                    </h2>
+                    <p>
+                        The Pomodro Technique helps improve focous by splitting work into 25 minute sessions
+                        Benefits
+                        - Reduces burnout
+                        - Improves concentration
+                        - Creates urgency
+                        - Makes large projects easier
+                        - Builds consistency
+                    </p>
+                </div>
+            </div>
         </section>
-
         <section class="card">
             <h2>Habits</h2>
             <input id="habitInput" placeholder="New Habit">
@@ -103,14 +131,13 @@
         </section>
         <section class="card">
             <h2>Level System</h2>
-            <p ipd="xpDisplay">
+            <p id="xpDisplay">
                 XP: 0
             </p>
             <p id="levelDisplay">
                 Level: 1
             </p>
         </section>
-        <p id="streakDisplay">🔥 Streak: 0 Days</p>
         <div id="analyticsOverlay">
             <div id="analyticsDrawer">
                 <button onclick="toggleAnalytics()" class="close-btn">✕</button>

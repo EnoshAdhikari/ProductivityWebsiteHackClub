@@ -134,7 +134,7 @@ input:focus, textarea:focus
     border-color: #22d3ee;
     box-shadow: 0 0 15px rgba(34,211,238,.4);
 }
-#analyticsOverley
+#analyticsOverlay
 {
     position: fixed;
     inset: 0;
@@ -165,4 +165,34 @@ input:focus, textarea:focus
 #analyticsOverlay.active #analyticsDrawer
 {
     right: 0;
+}
+#achievementOverlay
+{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .7);
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    z-index: 1000;
+}
+#achievementOverlay.active
+{
+    visibility: visible;
+    opacity: 1;
+}
+#achievementDrawer
+{
+    position: absolute;
+    left: -700px;
+    top: 0;
+    width: 700px;
+    height: 100%;
+    background: #0f172a;
+    padding: 30px;
+    transition: .4s;
+}
+#achievementOverlay.active #achievementDrawer
+{
+    left: 0;
 }
