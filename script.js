@@ -1,5 +1,9 @@
 let goals = [];
+let audioContext;
+let noiseNode;
+let isNoisePlaying = false;
 
+const display = document.getElementById("calcDisplay");
 function addGoal()
 {
     const input = document.getElementById("goalInput");
@@ -29,15 +33,6 @@ display.addEventListener("keydown", function(event)
     }
 })
 
-const display = document.getElementById('calcDisplay');
-function addValue(v)
-{
-    display.value = display.value + v;
-}
-function clearCalc()
-{
-    display.value='';
-}
 function calculate()
 {
     try
@@ -53,6 +48,10 @@ function calculate()
     }
 }
 
+function addValue(v)
+{
+    display.value = display.value + v;
+}
     display.addEventListener("keypress", function(event)
     {
         if(event.key === "Enter")
@@ -112,14 +111,6 @@ function calculate()
         renderTasks();
         input.value="";
     }
-    function toggleTask(index)
-    {
-        tasks[index].completed = !tasks[index].completed;
-
-        saveTasks();
-        renderTasks();
-    }
-
     function deleteTask(index)
     {
         tasks.splice(index, 1);
@@ -133,7 +124,8 @@ function calculate()
     notesElement.addEventListener("input", () => {
         localStorage.setItem( "notes", notesElement.value);
     });
-
+    let time = 1500;
+    let interval = null;
     let timerRunning = false;
     function startTimer()
     {
@@ -150,8 +142,7 @@ function calculate()
         }, 1000);
     }
 
-    let time = 1500;
-    let interval = null;
+
     function updateTimer()
     {
         let minutes = Math.floor(time / 60);
@@ -223,7 +214,7 @@ function calculate()
         else
         {
             noiseNode.stop();
-            document.getElementById("noseBtn").textContent = "Start White Noise";
+            document.getElementById("noiseBtn").textContent = "Start White Noise";
 
             isNoisePlaying = false;
         }
@@ -240,6 +231,53 @@ function calculate()
     ];
     function newQuote()
     {
-        const random = quotes[Math.floor(Math.random() * quotes.length)];
+        const randomIndex = Math.floor(Math.random() * quotes.length);
         document.getElementById("quote").textContent = quotes[randomIndex];
+    }
+    function addHabit()
+    {
+        const input = document.getElementById("habitInput");
+        if(input.value.trim()==="")
+        {
+            return;
+        }
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${input.value}</span>
+        <button onclick="completeHabit(this)">✔</button>
+        <button onclick="deleteHabit(this)">🗑</button>`;
+        document.getElementById("habitList").appendChild(li);
+        input.value="";
+    }
+    function deleteHabit(button)
+    {
+        button.parentElement.remove();
+    }
+    function celebrate()
+    {
+        confetti({particleCount: 150, spread: 120, origin: {y: 0.6}});
+        const audio = new Audio("https://assets.mixkit.co/active_storage/s/fx/2018/2018-preview.mp3");
+        audio.play();
+    }
+    function toggleTask(index)
+    {
+        tasks[index].completed = !tasks[index].completed;
+        if(tasks[index].completed)
+        {
+            celebrate();
+        }
+        saveTasks();
+        renderTasks();
+    }
+    function completeHabit(button)
+    {
+        celebrate();
+        button.parentElement.style.opacity = "0.5";
+        button.parentElement.style.textDecoration = "line-through";
+    }
+    let xp = Number(localStorage.getItem("xp")) || 0;
+    function updateXP()
+    {
+        localStorage.setItem("xp", xp);
+        document.getElementById("xpDisplay").textContent = `XP: ${xp}`;
+        document.getElementById("levelDisplay").textContent = `Level: ${Math.floor(xp / 100)+ 1}`;
     }

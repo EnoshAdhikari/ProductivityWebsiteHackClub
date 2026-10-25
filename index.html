@@ -9,7 +9,11 @@
     <body>
         <header>
             <h1>Productivity Hub</h1>
-            <button id="themeBtn">Toggle Theme</button>
+            <div class="theme-switcher">
+                <button onclick="setTheme('light')">☀️ Light</button>
+                <button onclick="setTheme('dark')">🌙 Dark</button>
+                <button onclick="setTheme('ocean')">🌊 Ocean</button>
+            </div>
         </header>
 
         <div class="container"></div>
@@ -80,13 +84,6 @@
             <p id="goalCount">Goals: 0</p>
             <p id="habitCount">Habits: 0</p>
         </section>
-        
-        <section class="card">
-            <h2>Appearance</h2>
-            <button onclick="setTheme('light')">Light Theme</button>
-            <button onclick="setTheme('dark')">Dark Theme</button>
-            <button onclick="setTheme('ocean')">Ocean Theme</button>
-        </section>
 
         <section class="card">
             <h2>Focus Sounds</h2>
@@ -104,7 +101,16 @@
                 New Quote
             </button>
         </section>
-        
+        <section class="card">
+            <h2>Level System</h2>
+            <p ipd="xpDisplay">
+                XP: 0
+            </p>
+            <p id="levelDisplay">
+                Level: 1
+            </p>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
         <script src="script.js"></script>
     </body>
 </html>
