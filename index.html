@@ -39,7 +39,7 @@
         </section>
         <section class="card">
             <h2>Current Subject</h2>
-            <h1 id="currentSubjectsDisplay">General</h1>
+            <h1 id="currentSubjectDisplay">General</h1>
         </section>
         <div class="container"></div>
         <section class="card">
@@ -125,11 +125,19 @@
             <p id="habitCount">Habits: 0</p>
         </section>
         <section class="card">
+            <h2>Study Schedule</h2>
+            <input id="scheduleTitle" placeholder="Study Session">
+            <input type="date" id="scheduleDate">
+            <input type="time" id="scheduleTime">
+            <button onclick="addStudyPlan()">Add Session</button>
+            <ul id="studyPlanList"></ul>
+        </section>
+        <section class="card">
             <h2>
                 Progress Dashboard
             </h2>
             <div class="progress-bar">
-            <div>
+            <div id="taskProgress" class="progress-fill">
             </div>
             </div>
         </section>
@@ -194,8 +202,28 @@
                         <p id="analyticsXp">0</p>
                     </div>
                     <div class="analytics-card">
+                        <h3>
+                            Weekly Report
+                        </h3>
+                        <p id="weeklyReport"></p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>
+                            Completion Rate
+                        </h3>
+                        <p id="completionRate">0%</p>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>
+                            Productivity Insight
+                        </h3>
+                        <p id="insight">
+                            Keep building momentum;
+                        </p>
+                    </div>
+                    <div class="analytics-card">
                         <h3>Level</h3>
-                        <p id="levelDisplay">1</p>
+                        <p id="analyticsLevel">1</p>
                     </div>
                     <div class="analytics-card">
                         <h3>
@@ -206,6 +234,7 @@
                 </div>
             </div>
         </div>
+
         <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
         <script src="script.js"></script>
     </body>

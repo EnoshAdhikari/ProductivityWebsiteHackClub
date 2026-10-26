@@ -1,12 +1,12 @@
+
+let studyPlans = JSON.parse(localStorage.getItem("studyPlans")) || [];
+let subjects = JSON.parse(localStorage.getItem("subjects")) || [];
+let currentSubject = localStorage.getItem("currentSubject") || "General";
 if(subjects.length === 0)
 {
     subjects.push("General")
     saveSubjects();
 }
-
-
-let subjects = JSON.parse(localStorage.getItem("subjects")) || [];
-let currentSubject = localStorage.getItem("currentSubject") || "General";
 
 
 let streak = Number(localStorage.getItem("streak")) || 0;
@@ -17,6 +17,18 @@ let audioContext;
 let noiseNode;
 let isNoisePlaying = false;
 
+function renderStudyPlans()
+{
+    const list = document.getElementById("studyPlanList");
+    list.innerHTML= "";
+    studyPlans.forEach(plan =>
+    {
+        const li = document.createElement("li");
+        li.textContent = `${plan.title} | ${plan.date} | ${plan.time}`;
+        list.appendChild(li);
+    });
+}
+renderStudyPlans();
 function addSubject()
 {
     const input = document.getElementById("subjectInput");
@@ -28,6 +40,18 @@ function addSubject()
     saveSubjects();
     renderSubjects();
     input.value="";
+}
+
+function addStudyPlan()
+{
+    studyPlans.push(
+    {
+        title: document.getElementById("scheduleTitle").value,
+        date: document.getElementById("scheduleDate").value,
+        time: document.getElementById("scheduleTime").value
+    });
+    localStorage.setItem("studyPlans", JSON.stringify(studyPlans));
+    renderStudyPlans();
 }
 function loadSubjectDescription()
 {
@@ -46,6 +70,7 @@ function renderSubjects()
         const li = document.createElement("li");
         li.innerHTML = `
         <button onclick="switchSubject('${subject}')">${subject}</button>`;
+        list.appendChild(li);
     });
 }
 function loadSubjectGoals()
@@ -57,7 +82,7 @@ function switchSubject(subject)
 {
     currentSubject = subject;
     localStorage.setItem("currentSubject", subject);
-    document.getElementById("currentSubjectDisplay").textControl = subject;
+    document.getElementById("currentSubjectDisplay").textContent = subject;
     loadSubjectData();
     document.getElementById("subjectAnalytics").textContent = currentSubject;
 }
@@ -71,7 +96,6 @@ function loadSubjectData()
     loadSubjectTasks();
     loadSubjectGoals();
     loadSubjectHabits();
-    loadSubjectData();
     loadJournal();
 }
 function subjectKey(name)
@@ -91,8 +115,10 @@ function addGoal()
         return;
     }
     goals.push(input.value);
+    saveGoals();
     renderGoals();
     input.value = "";
+    saveGoals();
 }
 function renderGoals()
 {
@@ -143,18 +169,19 @@ function addValue(v)
 
     function saveNotes()
     {
-        localStorage.setItem('notes',document.getElementById('notes').value);
+        localStorage.setItem(subjectKey("notes"), document.getElementById("notes").value);
     }
-    document.getElementById('notes').value = localStorage.getItem('notes') || '';
+    document.getElementById('notes').value = localStorage.getItem(subjectKey("notes")) || "";
     function backspace()
     {
         display.value = display.value.slice(0, -1);
     }
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    function saveSubjectsTasks()
+    let tasks = JSON.parse(localStorage.getItem(subjectKey("tasks"))) || [];
+
+    function saveTasks()
     {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem(subjectKey("tasks"), JSON.stringify(tasks));
     }
     function renderTasks()
     {
@@ -201,7 +228,7 @@ function addValue(v)
     renderTasks();
 
     const notesElement = document.getElementById("notes");
-    notesElement.value = localStorage.getItem("notes") || "";
+    notesElement.value = localStorage.getItem(subjectKey("notes")) || "";
     notesElement.addEventListener("input", () => {
         localStorage.setItem( "notes", notesElement.value);
     });
@@ -355,6 +382,10 @@ function addValue(v)
         celebrate();
         updateXP();
         updateAnalytics();
+        updateProgress();
+        updateFocusScore();
+        updateWeeklyReport();
+        updateInsight();
     }
     function completeHabit(button)
     {
@@ -366,13 +397,17 @@ function addValue(v)
         updateAnalytics();
         button.parentElement.style.opacity = "0.5";
         button.parentElement.style.textDecoration = "line-through";
+        updateFocusScore();
+        updateWeeklyReport();
+        updateInsight();
     }
     let xp = Number(localStorage.getItem("xp")) || 0;
     function updateXP()
     {
         localStorage.setItem("xp", xp);
         document.getElementById("analyticsXp").textContent = `XP: ${xp}`;
-        document.getElementById("levelDisplay").textContent = `Level: ${Math.floor(xp / 100)+ 1}`;
+        document.getElementById("analyticsLevel").textContent = `Level: ${Math.floor(xp / 100)+ 1}`;
+        document.getElementById("levelDisplay").textContent = `Level: ${Math.floor(xp / 100) + 1}`;
     }
     updateXP();
     function toggleAnalytics()
@@ -381,7 +416,7 @@ function addValue(v)
     }
     function updateStreak()
     {
-        document.getElementById("currentStreak").textContent = `🔥 Current Streak: ${streak} Days`;
+        document.getElementById("streakDisplay").textContent = `🔥 Current Streak: ${streak} Days`;
         localStorage.setItem("streak", streak);
     }
     updateStreak();
@@ -486,7 +521,6 @@ function addValue(v)
     {
         localStorage.setItem(subjectKey("goals"), JSON.stringify(goals));
     }
-    saveGoals();
     
     function saveHabits()
     {
@@ -520,3 +554,29 @@ function addValue(v)
     {
         localStorage.setItem(`${currentSubject}_journal`, document.getElementById("journalEntry").value);
     }
+    function updateWeeklyReport()
+    {
+        document.getElementById("weeklyReport").innerHTML = `Tasks Completed: ${completedTasks} <br> Habits Completed: ${completedHabits} <br> XP Earned: ${xp} <br> Streak: ${streak} Days`;
+    }
+    function productivityInsight()
+    {
+        if(streak > 7)
+        {
+            return "Excellent consistency!";
+        }
+        if(completedTasks > 20)
+        {
+            return "High task completion rate!";
+        }
+        return "Keep building momentum!";
+    }
+    function updateInsight()
+    {
+        document.getElementById("insight").textContent = productivityInsight();
+    }
+    updateInsight();
+    loadSubjectDescription();
+    renderSubjects();
+    loadSubjectData();
+    updateFocusScore();
+    updateWeeklyReport();
