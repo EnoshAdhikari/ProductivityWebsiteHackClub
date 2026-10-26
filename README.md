@@ -62,7 +62,8 @@ Analytics Dashboard
     HTML5, CSS3, JavaScript, Local Storage API, and Canvas Confetti
 
     Data Storage: ALL user data is stored locally in the browser using local storage. No account/internet connection is required to use the website
-
+ 
+    How to use: Just simply visit https://enoshadhikari.github.io/ProductivityWebsiteHackClub/ and mess around with the web page! It is super interactive and works smoothly.
     Author: Enosh Adhikari
 
     <img width="1882" height="1080" alt="image" src="https://github.com/user-attachments/assets/3fbc0ace-755c-456b-92b8-34d72d55eb20" />
